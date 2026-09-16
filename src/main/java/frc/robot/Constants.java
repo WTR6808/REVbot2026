@@ -19,20 +19,31 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
+  public static enum CAN_IDs {
+
+
+    //SWERVE DRIVE
+    FRONT_LEFT_TURN(40),
+    FRONT_LEFT_DRIVE(41),
+    FRONT_RIGHT_TURN(42),
+    FRONT_RIGHT_DRIVE(43),
+    BACK_RIGHT_TURN(44),
+    BACK_RIGHT_DRIVE(45),
+    BACK_LEFT_TURN(46),
+    BACK_LEFT_DRIVE(47);
+
+
+    public int ID; 
+    private CAN_IDs(int ID){
+      this.ID=ID;
+    }
+  }
+
   public static class SwerveDriveConstants {
 
-    //TODO CAN_IDs need to be set 
-    public static final int FRONT_RIGHT_DRIVE_CAN_ID = 0;
-    public static final int FRONT_RIGHT_TURN_CAN_ID = 0;
+    
 
-    public static final int FRONT_LEFT_DRIVE_CAN_ID = 0;
-    public static final int FRONT_LEFT_TURN_CAN_ID = 0;
-
-    public static final int BACK_RIGHT_DRIVE_CAN_ID = 0;
-    public static final int BACK_RIGHT_TURN_CAN_ID = 0;
-
-    public static final int BACK_LEFT_DRIVE_CAN_ID = 0;
-    public static final int BACK_LEFT_TURN_CAN_ID = 0;
+    
   }
 
   public static class ModuleConstants {
