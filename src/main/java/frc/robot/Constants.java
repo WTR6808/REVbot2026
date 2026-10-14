@@ -41,7 +41,12 @@ public final class Constants {
 
   public static class SwerveDriveConstants {
 
+    private static final double ANGULAR_OFFSET_COMPENSATION = Math.PI/4;
     
+    public static final double FRONT_LEFT_CHASSIS_ANGULAR_OFFSET = -Math.PI/2 + ANGULAR_OFFSET_COMPENSATION;
+    public static final double FRONT_RIGHT_CHASSIS_ANGULAR_OFFSET = 0.0 + ANGULAR_OFFSET_COMPENSATION;
+    public static final double BACK_LEFT_CHASSIS_ANGULAR_OFFSET = Math.PI + ANGULAR_OFFSET_COMPENSATION;
+    public static final double BACK_RIGHT_CHASSIS_ANGULAR_OFFSET = Math.PI/2 + ANGULAR_OFFSET_COMPENSATION;
 
     
   }
