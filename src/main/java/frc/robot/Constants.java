@@ -68,9 +68,25 @@ public final class Constants {
     
         }
 
-    public static class NeoMotorConstants {
-      public static final int NEO_FREE_SPEED_RPM = 5676;
+    public static final class NeoMotorConstants {
+      public static final double NEO_FREE_SPEED_RPM = 5676;
+      public static final double VORTEX_KV = 565;
       
+    }
+
+    public static final class LauncherSubsystemConstants {
+      public static final int FEEDER_MOTOR_CAN_ID            = 5;
+      public static final int FLYWHEEL_MOTOR_CAN_ID          = 6;
+      public static final int FLYWHEEL_follower_MOTOR_CAN_ID = 7;
+
+      public static final class FeederSetPoints {
+        public static final double FEED = 0.95;
+      }
+
+      public static final class FlywheelSetPoints {
+        public static final double LAUNCH_RPM        = 5000;
+        public static final double VELOCITY_TOLERANCE = 100;
+      }
     }
 
 }

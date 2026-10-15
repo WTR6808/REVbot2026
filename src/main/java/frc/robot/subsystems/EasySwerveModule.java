@@ -50,11 +50,11 @@ public class EasySwerveModule extends SubsystemBase {
    //configs
    SparkMaxConfig drivingConfig = Configs.EasySwerveModule.drivingConfig;
    drivingConfig.inverted(drivingMotorOnBottom);
-   m_drivingSpark.configure(drivingConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+   m_drivingSpark.configure(drivingConfig, com.revrobotics.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   
    SparkMaxConfig turningConfig = Configs.EasySwerveModule.turningConfig;
    turningConfig.inverted(!turningMotorOnBottom);
-   m_turningSpark.configure(turningConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+   m_turningSpark.configure(turningConfig, com.revrobotics.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
    m_chassisAngularOffset = chassisAngularOffset;
    m_desiredState.angle = new Rotation2d(m_turningEncoder.getPosition());

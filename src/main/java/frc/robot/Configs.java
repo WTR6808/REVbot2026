@@ -6,6 +6,7 @@ package frc.robot;
 
 import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkFlexConfig;
 
 import frc.robot.Constants.ModuleConstants;
 
@@ -71,7 +72,21 @@ public final class Configs {
 
     }
 
+public static final class LauncherSubsystem {
+    public static final SparkFlexConfig flywheelConfig = new SparkFlexConfig();
+    public static final SparkFlexConfig flywheelfollowerConfig = new SparkFlexConfig();
+    public static final SparkFlexConfig feederConfig = new SparkFlexConfig();
 
+    static {
+        flywheelConfig.inverted(true).idleMode(IdleMode.kCoast).closedLoopRampRate(1.0).openLoopRampRate(1.0).smartCurrentLimit(80);
+        flywheelConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder).p(.0002).outputRange(-1, 1);
+        flywheelConfig.closedLoop.maxMotion.cruiseVelocity(5000).maxAcceleration(10000).allowedProfileError(1);
+        flywheelConfig.closedLoop.feedForward.kV(nominalVoltage/Constants.NeoMotorConstants.VORTEX_KV);
+        flywheelfollowerConfig.apply(feederConfig).follow(Constants.LauncherSubsystemConstants.FLYWHEEL_MOTOR_CAN_ID, true);
+        feederConfig.inverted(true).idleMode(IdleMode.kCoast).openLoopRampRate(1.0).smartCurrentLimit(60);
+
+    }
+}
 
 
 
