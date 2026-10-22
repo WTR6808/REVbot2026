@@ -89,4 +89,20 @@ public final class Constants {
       }
     }
 
+    public static final class IntakeSubsytemConstants {
+      public static final int INTAKE_MOTOR_CAN_ID = 0; //Not final 
+      public static final int CONVEYOR_MOTOR_CAN_ID = 0; //Not final 
+
+      public static final class IntakeSetpoints{
+        public static final double INTAKE = 0.6;
+        public static final double EXTAKE = -0.6;
+      }
+
+      public static final class ConveyorSetpoints{
+        public static final double INTAKE = 0.7;
+        public static final double EXTAKE = -0.7;
+      }
+
+
+    }
 }

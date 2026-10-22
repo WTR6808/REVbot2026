@@ -72,6 +72,25 @@ public final class Configs {
 
     }
 
+public static final class IntakeSubsystem{
+    public static final SparkFlexConfig intakeConfig = new SparkFlexConfig();
+    public static final SparkFlexConfig conveyorConfig = new SparkFlexConfig();
+
+    static {
+        intakeConfig
+            .inverted(false)
+            .idleMode(IdleMode.kCoast)
+            .openLoopRampRate(0.5)
+            .smartCurrentLimit(40);
+
+        conveyorConfig
+            .inverted(true)
+            .idleMode(IdleMode.kCoast)
+            .openLoopRampRate(0.5)
+            .smartCurrentLimit(40);
+    }
+}
+
 public static final class LauncherSubsystem {
     public static final SparkFlexConfig flywheelConfig = new SparkFlexConfig();
     public static final SparkFlexConfig flywheelfollowerConfig = new SparkFlexConfig();
@@ -87,6 +106,7 @@ public static final class LauncherSubsystem {
 
     }
 }
+
 
 
 
