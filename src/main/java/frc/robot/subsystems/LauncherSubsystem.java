@@ -15,6 +15,7 @@ import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -52,12 +53,12 @@ private double flywheelTargetVelocity = 0;
     return MathUtil.isNear(flywheelEncoder.getVelocity(), velocity, FlywheelSetPoints.VELOCITY_TOLERANCE);
   }
 
-public final Trigger isflywheelspinning = new Trigger(()->isFlywheelAt(5000)|| flywheelEncoder.getVelocity()>5000);
+public final Trigger isFlywheelSpinning = new Trigger(()->isFlywheelAt(5000)|| flywheelEncoder.getVelocity()>5000);
 
 
-public final Trigger isflywheelspinningbackwards = new Trigger(()->isFlywheelAt(-5000)|| flywheelEncoder.getVelocity()<-5000);
+public final Trigger isFlywheelSpinningBackwards = new Trigger(()->isFlywheelAt(-5000)|| flywheelEncoder.getVelocity()<-5000);
 
-public final Trigger isflywheelstoped = new Trigger(()->isFlywheelAt(0));
+public final Trigger isFlywheelStopped = new Trigger(()->isFlywheelAt(0));
 
 private void setFlywheelVelocity(double velocity){
   flywheelController.setSetpoint(velocity, ControlType.kMAXMotionVelocityControl);
@@ -86,11 +87,36 @@ public Command runFlywheelCommand(){
   }).withName("spinning the flywheel");
   }
 
-  
+  public Command runLauncherCommand(){
+    return this.startEnd(
+      ()->this.setFlywheelVelocity(FlywheelSetPoints.LAUNCH_RPM),
+      ()->flywheelMotor.stopMotor()
+    ).until(isFlywheelSpinning).andThen(
+      this.startEnd(
+        ()->{
+          this.setFlywheelVelocity(FlywheelSetPoints.LAUNCH_RPM);
+          this.setFeederPower(FeederSetPoints.FEED);
+        }, ()->{
+          flywheelMotor.stopMotor();
+          feederMotor.stopMotor();
+        })
+    ).withName("Launching");
+  }
 
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Launcher | Feeder | Applied Output", feederMotor.getAppliedOutput());
+    SmartDashboard.putNumber("Launcher | Flywheel | Applied Output", flywheelMotor.getAppliedOutput());
+    SmartDashboard.putNumber("Launcher | Flywheel | Current", flywheelMotor.getOutputCurrent());
+    SmartDashboard.putNumber("Launcher | Flywheel follower| Applied Output", flywheelfollowerMotor.getAppliedOutput());
+    SmartDashboard.putNumber("Launcher | Flywheel follower| Current", flywheelfollowerMotor.getOutputCurrent());
+    
+    SmartDashboard.putNumber("Launcher | Flywheel | Target Velocity", flywheelTargetVelocity);
+    SmartDashboard.putNumber("Launcher | Flywheel | Actual Velocity", flywheelEncoder.getVelocity());
+
+    SmartDashboard.putBoolean("Is Flywheel Spinning", isFlywheelSpinning.getAsBoolean());
+    SmartDashboard.putBoolean("Is Flywheel Stopped", isFlywheelStopped.getAsBoolean());
   }
 }
