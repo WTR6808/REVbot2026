@@ -10,15 +10,15 @@ import com.revrobotics.spark.config.SparkFlexConfig;
 
 import frc.robot.Constants.ModuleConstants;
 
-import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkFlexConfig;
 
 /** Add your docs here. */
 public final class Configs {
     private static final double nominalVoltage = 12.0;
 
     public static final class EasySwerveModule {
-        public static final SparkMaxConfig drivingConfig = new SparkMaxConfig();
-        public static final SparkMaxConfig turningConfig = new SparkMaxConfig();
+        public static final SparkFlexConfig drivingConfig = new SparkFlexConfig();
+        public static final SparkFlexConfig turningConfig = new SparkFlexConfig();
         static{
          // Use module constants to calculate conversion factors and feed forward gain.
             double drivingFactor = Constants.ModuleConstants.WHEEL_DIAMETER_METERS * Math.PI

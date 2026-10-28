@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -30,7 +32,8 @@ public final class Constants {
     BACK_RIGHT_TURN(44),
     BACK_RIGHT_DRIVE(45),
     BACK_LEFT_TURN(46),
-    BACK_LEFT_DRIVE(47);
+    BACK_LEFT_DRIVE(47),
+    PIGEON(0);
 
 
     public int ID; 
@@ -41,7 +44,37 @@ public final class Constants {
 
   public static class SwerveDriveConstants {
 
+    public static final double MAX_SPEED_METERS_PER_SECOND = 4.8;
+    public static final double MAX_ANGULAR_SPEED = 2 * Math.PI;
+
+    private static final double ANGULAR_OFFSET_COMPENSATION = Math.PI / 4;
+    public static final double FRONT_LEFT_ANGULAR_OFFSET = (-Math.PI / 2) + ANGULAR_OFFSET_COMPENSATION;
+    public static final double FRONT_RIGHT_ANGULAR_OFFSET = 0 + ANGULAR_OFFSET_COMPENSATION;
+    public static final double BACK_LEFT_ANGULAR_OFFSET = Math.PI + ANGULAR_OFFSET_COMPENSATION;
+    public static final double BACK_RIGHT_ANGULAR_OFFSET = (Math.PI / 2) + ANGULAR_OFFSET_COMPENSATION;
+
+    public static final boolean FRONT_LEFT_DRIVING_ON_BOTTOM = true;
+    public static final boolean BACK_LEFT_DRIVING_ON_BOTTOM = true;
+    public static final boolean FRONT_RIGHT_DRIVING_ON_BOTTOM = true;
+    public static final boolean BACK_RIGHT_DRIVING_ON_BOTTOM = true;
+
+    public static final boolean FRONT_LEFT_TURNING_ON_BOTTOM = true;
+    public static final boolean BACK_LEFT_TURNING_ON_BOTTOM = true;
+    public static final boolean FRONT_RIGHT_TURNING_ON_BOTTOM = true;
+    public static final boolean BACK_RIGHT_TURNING_ON_BOTTOM = true;
+
     
+    public static final double TRACK_WIDTH = Units.inchesToMeters(22.5);
+    public static final double WHEEL_BASE = Units.inchesToMeters(22.5);
+    
+    public static final SwerveDriveKinematics DRIVE_KINEMATICS =
+        new SwerveDriveKinematics(
+            new Translation2d(WHEEL_BASE / 2, TRACK_WIDTH / 2),
+            new Translation2d(WHEEL_BASE / 2, -TRACK_WIDTH / 2),
+            new Translation2d(-WHEEL_BASE / 2, TRACK_WIDTH / 2),
+            new Translation2d(-WHEEL_BASE / 2, -TRACK_WIDTH / 2));
+
+    public static final boolean GYRO_REVERSED = false;
 
     
   }
@@ -75,8 +108,8 @@ public final class Constants {
     }
 
     public static final class LauncherSubsystemConstants {
-      public static final int FEEDER_MOTOR_CAN_ID            = 5;
-      public static final int FLYWHEEL_MOTOR_CAN_ID          = 6;
+      public static final int FEEDER_MOTOR_CAN_ID = 5;
+      public static final int FLYWHEEL_MOTOR_CAN_ID = 6;
       public static final int FLYWHEEL_follower_MOTOR_CAN_ID = 7;
 
       public static final class FeederSetPoints {
@@ -84,7 +117,7 @@ public final class Constants {
       }
 
       public static final class FlywheelSetPoints {
-        public static final double LAUNCH_RPM        = 5000;
+        public static final double LAUNCH_RPM = 5000;
         public static final double VELOCITY_TOLERANCE = 100;
       }
     }
