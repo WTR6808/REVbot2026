@@ -18,7 +18,8 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
   public static class OperatorConstants {
-    public static final int kDriverControllerPort = 0;
+    public static final int DRIVER_CONTROLLER_PORT = 0;
+    public static final int OPERATOR_CONTROLLER_PORT = 1;
   }
 
   public static enum CAN_IDs {
@@ -123,8 +124,8 @@ public final class Constants {
     }
 
     public static final class IntakeSubsytemConstants {
-      public static final int INTAKE_MOTOR_CAN_ID = 0; //Not final 
-      public static final int CONVEYOR_MOTOR_CAN_ID = 0; //Not final 
+      public static final int INTAKE_MOTOR_CAN_ID = 2; //Not final 
+      public static final int CONVEYOR_MOTOR_CAN_ID = 4; //Not final 
 
       public static final class IntakeSetpoints{
         public static final double INTAKE = 0.6;
