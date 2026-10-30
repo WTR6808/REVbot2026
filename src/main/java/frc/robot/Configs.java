@@ -72,7 +72,7 @@ public final class Configs {
 
     }
 
-public static final class IntakeSubsystem{
+public static final class IntakeSubsystemConfigs {
     public static final SparkFlexConfig intakeConfig = new SparkFlexConfig();
     public static final SparkFlexConfig conveyorConfig = new SparkFlexConfig();
 
@@ -91,7 +91,7 @@ public static final class IntakeSubsystem{
     }
 }
 
-public static final class LauncherSubsystem {
+public static final class LauncherSubsystemConfigs {
     public static final SparkFlexConfig flywheelConfig = new SparkFlexConfig();
     public static final SparkFlexConfig flywheelfollowerConfig = new SparkFlexConfig();
     public static final SparkFlexConfig feederConfig = new SparkFlexConfig();
@@ -102,7 +102,7 @@ public static final class LauncherSubsystem {
         flywheelConfig.closedLoop.maxMotion.cruiseVelocity(5000).maxAcceleration(10000).allowedProfileError(1);
         flywheelConfig.closedLoop.feedForward.kV(nominalVoltage/Constants.NeoMotorConstants.VORTEX_KV);
         flywheelfollowerConfig.apply(feederConfig).follow(Constants.LauncherSubsystemConstants.FLYWHEEL_MOTOR_CAN_ID, true);
-        feederConfig.inverted(true).idleMode(IdleMode.kCoast).openLoopRampRate(1.0).smartCurrentLimit(60);
+        feederConfig.inverted(false).idleMode(IdleMode.kCoast).openLoopRampRate(1.0).smartCurrentLimit(60);
 
     }
 }

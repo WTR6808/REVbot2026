@@ -126,7 +126,6 @@ public class PigeonTwo implements Sendable{
 
     @Override
     public void initSendable(SendableBuilder builder) {
-        // TODO Auto-generated method stub
         builder.setSmartDashboardType("Gyro");
         builder.addDoubleProperty("Value", this::get360Angle, null);
     }

@@ -43,9 +43,9 @@ private double flywheelTargetVelocity = 0;
 
 
   public LauncherSubsystem() {
-    flywheelMotor.configure(Configs.LauncherSubsystem.flywheelConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    flywheelfollowerMotor.configure(Configs.LauncherSubsystem.flywheelfollowerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    feederMotor.configure(Configs.LauncherSubsystem.feederConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    flywheelMotor.configure(Configs.LauncherSubsystemConfigs.flywheelConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    flywheelfollowerMotor.configure(Configs.LauncherSubsystemConfigs.flywheelfollowerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    feederMotor.configure(Configs.LauncherSubsystemConfigs.feederConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     flywheelEncoder.setPosition(0);
   }
   

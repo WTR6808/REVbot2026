@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -26,14 +27,19 @@ public final class Constants {
 
 
     //SWERVE DRIVE
-    FRONT_LEFT_TURN(40),
-    FRONT_LEFT_DRIVE(41),
-    FRONT_RIGHT_TURN(42),
-    FRONT_RIGHT_DRIVE(43),
-    BACK_RIGHT_TURN(44),
-    BACK_RIGHT_DRIVE(45),
-    BACK_LEFT_TURN(46),
-    BACK_LEFT_DRIVE(47),
+    FRONT_LEFT_TURN(14),
+    FRONT_LEFT_DRIVE(15),
+    FRONT_RIGHT_TURN(10),
+    FRONT_RIGHT_DRIVE(11),
+    BACK_RIGHT_TURN(8),
+    BACK_RIGHT_DRIVE(9),
+    BACK_LEFT_TURN(12),
+    BACK_LEFT_DRIVE(13),
+    INTAKE(2),
+    CONVEYOR(4),
+    FEEDER(5),
+    FLYWHEEL(6),
+    FLYWHEEL_FOLLOWER(7),
     PIGEON(0);
 
 
@@ -49,10 +55,10 @@ public final class Constants {
     public static final double MAX_ANGULAR_SPEED = 2 * Math.PI;
 
     private static final double ANGULAR_OFFSET_COMPENSATION = Math.PI / 4;
-    public static final double FRONT_LEFT_ANGULAR_OFFSET = (-Math.PI / 2) + ANGULAR_OFFSET_COMPENSATION;
-    public static final double FRONT_RIGHT_ANGULAR_OFFSET = 0 + ANGULAR_OFFSET_COMPENSATION;
-    public static final double BACK_LEFT_ANGULAR_OFFSET = Math.PI + ANGULAR_OFFSET_COMPENSATION;
-    public static final double BACK_RIGHT_ANGULAR_OFFSET = (Math.PI / 2) + ANGULAR_OFFSET_COMPENSATION;
+    public static final double FRONT_LEFT_ANGULAR_OFFSET = (-Math.PI / 2) + ANGULAR_OFFSET_COMPENSATION * 2.5;
+    public static final double FRONT_RIGHT_ANGULAR_OFFSET = 3 * Math.PI / 2 + ANGULAR_OFFSET_COMPENSATION / 2 ;
+    public static final double BACK_LEFT_ANGULAR_OFFSET = ANGULAR_OFFSET_COMPENSATION - Math.PI / 2;
+    public static final double BACK_RIGHT_ANGULAR_OFFSET = -(Math.PI / 2) + ANGULAR_OFFSET_COMPENSATION;
 
     public static final boolean FRONT_LEFT_DRIVING_ON_BOTTOM = true;
     public static final boolean BACK_LEFT_DRIVING_ON_BOTTOM = true;
@@ -76,6 +82,23 @@ public final class Constants {
             new Translation2d(-WHEEL_BASE / 2, -TRACK_WIDTH / 2));
 
     public static final boolean GYRO_REVERSED = false;
+
+    public static enum DriveSpeeds {
+      SLOW(           0.33333, 
+                  0.2),
+      MEDIUM(         0.66666,
+                  0.2),
+      FAST(           1,
+                  1);
+
+      public double linearMultiplier;
+      public double rotationalMultiplier;
+
+      private DriveSpeeds(double linearMultiplier, double rotationalMultiplier) {
+        this.linearMultiplier     = linearMultiplier;
+        this.rotationalMultiplier = rotationalMultiplier; 
+      }
+    }
 
     
   }
@@ -123,7 +146,7 @@ public final class Constants {
       }
     }
 
-    public static final class IntakeSubsytemConstants {
+    public static final class IntakeSubsystemConstants {
       public static final int INTAKE_MOTOR_CAN_ID = 2; //Not final 
       public static final int CONVEYOR_MOTOR_CAN_ID = 4; //Not final 
 
@@ -139,4 +162,28 @@ public final class Constants {
 
 
     }
+
+    public static final class OIConstants {
+      public static final int kDriverControllerPort = 0;
+      public static final double kDriveDeadband = 0.1;
+      public static final double kTriggerButtonThreshold = 0.2;
+    }
+
+    public static final class AutoConstants {
+      public static final double MAX_SPEED_METERS_PER_SECOND = 3;
+      public static final double MAX_ACCELRATION_MPS_SQUARED = 3;
+      public static final double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND = Math.PI;
+      public static final double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND_SQUARED = Math.PI;
+
+      public static final double kPXController = 1;
+      public static final double kPYController = 1;
+      public static final double kPThetaController = 1;
+
+      // Constraint for the motion profiled robot angle controller
+      public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
+        new TrapezoidProfile.Constraints(
+            MAX_ANGULAR_SPEED_RADIANS_PER_SECOND, MAX_ANGULAR_SPEED_RADIANS_PER_SECOND_SQUARED);
+    }
+
 }
+

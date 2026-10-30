@@ -15,10 +15,12 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CAN_IDs;
 import frc.robot.Constants.SwerveDriveConstants;
+import frc.robot.Constants.SwerveDriveConstants.DriveSpeeds;
 import frc.robot.PigeonTwo;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -53,6 +55,8 @@ private final EasySwerveModule m_rearRight = new EasySwerveModule(
 
 private PigeonTwo m_pigeon = PigeonTwo.getInstance(); 
 
+public DriveSpeeds currentSpeed;
+
 
   // Odometry class for tracking robot pose
   SwerveDriveOdometry m_odometry =
@@ -67,7 +71,15 @@ private PigeonTwo m_pigeon = PigeonTwo.getInstance();
           });
 
   /** Creates a new DriveSubsystem. */
-  public DriveSubsystem() {}
+  public DriveSubsystem() {
+    currentSpeed = DriveSpeeds.FAST;
+  }
+
+  public Command changeSpeed(DriveSpeeds speed){
+    return this.runOnce(
+      ()-> currentSpeed = speed
+    ).withName("Changing Speed");
+  }
 
   @Override
   public void periodic() {
@@ -80,6 +92,9 @@ private PigeonTwo m_pigeon = PigeonTwo.getInstance();
           m_rearLeft.getPosition(),
           m_rearRight.getPosition()
         });
+
+    SmartDashboard.putNumber("Linear Speed Multiplier", currentSpeed.linearMultiplier);
+    SmartDashboard.putNumber("Rotational Speed Multiplier",currentSpeed.rotationalMultiplier);
   }
 
   /**
@@ -118,9 +133,9 @@ private PigeonTwo m_pigeon = PigeonTwo.getInstance();
    */
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
     // Convert the commanded speeds into the correct units for the drivetrain
-    double xSpeedDelivered = xSpeed * SwerveDriveConstants.MAX_SPEED_METERS_PER_SECOND;
-    double ySpeedDelivered = ySpeed * SwerveDriveConstants.MAX_SPEED_METERS_PER_SECOND;
-    double rotDelivered = rot * SwerveDriveConstants.MAX_ANGULAR_SPEED;
+    double xSpeedDelivered = xSpeed * SwerveDriveConstants.MAX_SPEED_METERS_PER_SECOND * currentSpeed.linearMultiplier;
+    double ySpeedDelivered = ySpeed * SwerveDriveConstants.MAX_SPEED_METERS_PER_SECOND * currentSpeed.linearMultiplier;
+    double rotDelivered = rot * SwerveDriveConstants.MAX_ANGULAR_SPEED                 * currentSpeed.rotationalMultiplier;
 
     var swerveModuleStates =
         SwerveDriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
