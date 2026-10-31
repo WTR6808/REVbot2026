@@ -84,9 +84,9 @@ public final class Constants {
     public static final boolean GYRO_REVERSED = false;
 
     public static enum DriveSpeeds {
-      SLOW(           0.33333, 
-                  0.2),
-      MEDIUM(         0.66666,
+      SLOW(           0.05, 
+                  0.1),
+      MEDIUM(         0.5,
                   0.2),
       FAST(           1,
                   1);
@@ -132,12 +132,10 @@ public final class Constants {
     }
 
     public static final class LauncherSubsystemConstants {
-      public static final int FEEDER_MOTOR_CAN_ID = 5;
-      public static final int FLYWHEEL_MOTOR_CAN_ID = 6;
-      public static final int FLYWHEEL_follower_MOTOR_CAN_ID = 7;
 
       public static final class FeederSetPoints {
-        public static final double FEED = 0.95;
+        public static final double FEED         = 0.95;
+        public static final double FEED_REVERSE = -0.5;
       }
 
       public static final class FlywheelSetPoints {
@@ -147,17 +145,15 @@ public final class Constants {
     }
 
     public static final class IntakeSubsystemConstants {
-      public static final int INTAKE_MOTOR_CAN_ID = 2; //Not final 
-      public static final int CONVEYOR_MOTOR_CAN_ID = 4; //Not final 
-
       public static final class IntakeSetpoints{
-        public static final double INTAKE = 0.6;
+        public static final double INTAKE = 0.8;
         public static final double EXTAKE = -0.6;
       }
 
       public static final class ConveyorSetpoints{
         public static final double INTAKE = 0.7;
         public static final double EXTAKE = -0.7;
+        public static final double EXTAKE_SLOW = -0.3;
       }
 
 

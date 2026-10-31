@@ -19,23 +19,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Configs;
+import frc.robot.Constants.CAN_IDs;
 import frc.robot.Constants.LauncherSubsystemConstants;
 import frc.robot.Constants.LauncherSubsystemConstants.FeederSetPoints;
 import frc.robot.Constants.LauncherSubsystemConstants.FlywheelSetPoints;
+import frc.robot.utilities.Configs;
 
 public class LauncherSubsystem extends SubsystemBase {
   /** Creates a new Launcher. */
 
 
 
-private SparkFlex flywheelMotor = new SparkFlex(LauncherSubsystemConstants.FLYWHEEL_MOTOR_CAN_ID, MotorType.kBrushless); 
+private SparkFlex flywheelMotor = new SparkFlex(CAN_IDs.FLYWHEEL.ID, MotorType.kBrushless); 
 private SparkClosedLoopController flywheelController = flywheelMotor.getClosedLoopController();
 private RelativeEncoder flywheelEncoder = flywheelMotor.getEncoder();
 
-private SparkFlex flywheelfollowerMotor = new SparkFlex(LauncherSubsystemConstants.FLYWHEEL_follower_MOTOR_CAN_ID, MotorType.kBrushless);
+private SparkFlex flywheelfollowerMotor = new SparkFlex(CAN_IDs.FLYWHEEL_FOLLOWER.ID, MotorType.kBrushless);
 
-private SparkFlex feederMotor = new SparkFlex(LauncherSubsystemConstants.FEEDER_MOTOR_CAN_ID, MotorType.kBrushless);
+private SparkFlex feederMotor = new SparkFlex(CAN_IDs.FEEDER.ID, MotorType.kBrushless);
 
 private double flywheelTargetVelocity = 0;
 
@@ -101,6 +102,12 @@ public Command runFlywheelCommand(){
           feederMotor.stopMotor();
         })
     ).withName("Launching");
+  }
+
+  public Command runFeederReverse(){
+    return this.startEnd(
+      ()-> this.setFeederPower(FeederSetPoints.FEED_REVERSE), 
+      ()-> this.setFeederPower(0.0));
   }
 
 

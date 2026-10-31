@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.hardware.Pigeon2;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -13,15 +12,14 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.ADIS16470_IMU;
-import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CAN_IDs;
 import frc.robot.Constants.SwerveDriveConstants;
 import frc.robot.Constants.SwerveDriveConstants.DriveSpeeds;
-import frc.robot.PigeonTwo;
+import frc.robot.utilities.PigeonTwo;
 
 public class DriveSubsystem extends SubsystemBase {
   // Create EasySwerveModules
@@ -57,6 +55,8 @@ private PigeonTwo m_pigeon = PigeonTwo.getInstance();
 
 public DriveSpeeds currentSpeed;
 
+public Field2d m_field;
+
 
   // Odometry class for tracking robot pose
   SwerveDriveOdometry m_odometry =
@@ -73,6 +73,8 @@ public DriveSpeeds currentSpeed;
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
     currentSpeed = DriveSpeeds.FAST;
+    m_field = new Field2d();
+    SmartDashboard.putData("Field", m_field);
   }
 
   public Command changeSpeed(DriveSpeeds speed){

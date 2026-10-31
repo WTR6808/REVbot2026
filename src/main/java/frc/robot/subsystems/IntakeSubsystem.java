@@ -12,11 +12,11 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Configs;
 import frc.robot.Constants;
 import frc.robot.Constants.IntakeSubsystemConstants;
 import frc.robot.Constants.IntakeSubsystemConstants.ConveyorSetpoints;
 import frc.robot.Constants.IntakeSubsystemConstants.IntakeSetpoints;
+import frc.robot.utilities.Configs;
 
 public class IntakeSubsystem extends SubsystemBase {
   // Initialize intake SPARK. We will use open loop control for this.
@@ -77,11 +77,23 @@ public class IntakeSubsystem extends SubsystemBase {
         }).withName("Intaking");
   }
 
+  public Command runConveyorReverse(){
+    return this.startEnd(
+      ()-> this.setConveyorPower(IntakeSubsystemConstants.ConveyorSetpoints.EXTAKE_SLOW),
+      ()-> this.setConveyorPower(0.0));
+  }
+
+
+  public Command runExtakeCommand(){
+    return this.startEnd(()-> this.setIntakePower(IntakeSetpoints.EXTAKE),
+                         ()-> this.setIntakePower(0.0));
+  }
+
   /**
    * Command to reverse the intake motor and coveyor motors. When the command is interrupted, e.g. the button is
    * released, the motors will stop.
    */
-  public Command runExtakeCommand() {
+  public Command dumpExtake() {
     return this.startEnd(
         () -> {
           this.setIntakePower(IntakeSetpoints.EXTAKE);
@@ -91,6 +103,8 @@ public class IntakeSubsystem extends SubsystemBase {
           this.setConveyorPower(0.0);
         }).withName("Extaking");
   }
+
+  
 
   @Override
   public void periodic() {

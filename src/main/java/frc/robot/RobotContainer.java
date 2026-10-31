@@ -4,23 +4,17 @@
 
 package frc.robot;
 
-import frc.robot.Configs.IntakeSubsystemConfigs;
-import frc.robot.Configs.LauncherSubsystemConfigs;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.LaunchAuto;
-import frc.robot.commands.test;
+import frc.robot.commands.AutoLaunch;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LauncherSubsystem;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.utilities.HubShifts;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -36,6 +30,8 @@ public class RobotContainer {
   private final DriveSubsystem m_swerve = new DriveSubsystem();
   private final IntakeSubsystem m_intake = new IntakeSubsystem();
   private final LauncherSubsystem m_launcher = new LauncherSubsystem();
+  private final HubShifts m_HubShifts         = HubShifts.getInstance();
+
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -62,14 +58,13 @@ public class RobotContainer {
                     true),
             m_swerve).withName("Swerve Drive Default"));
 
-
     SmartDashboard.putData(m_intake);
     SmartDashboard.putData(m_launcher);
     
     SmartDashboard.putNumber("Bat Voltage", RobotController.getBatteryVoltage());
     
     SmartDashboard.putData("Intake", m_intake.runIntakeCommand().withName("Intake - Intaking"));
-    SmartDashboard.putData("Extake", m_intake.runExtakeCommand().withName("Intake - Extaking"));
+    SmartDashboard.putData("Extake", m_intake.dumpExtake().withName("Intake - Extaking"));
     
     SmartDashboard.putData("Feeder", m_launcher.runFeederCommand().withName("Shooter - Feeding and Shooting"));
     SmartDashboard.putData("Flywheel", m_launcher.runFlywheelCommand().withName("Shooter - Spinning up Flywheel"));
@@ -109,7 +104,7 @@ public class RobotContainer {
     // Left Trigger -> Run fuel intake in reverse
     m_driverController
       .leftTrigger(OIConstants.kTriggerButtonThreshold)
-      .whileTrue(m_intake.runExtakeCommand());
+      .whileTrue(m_intake.dumpExtake());
 
 
     // 
@@ -127,8 +122,13 @@ public class RobotContainer {
     m_operatorController.leftBumper().whileTrue(m_intake.runIntakeCommand());
 
     //Left Bumper -> Outtake 
-    m_operatorController.rightBumper().whileTrue(m_intake.runExtakeCommand());
+    m_operatorController.rightBumper().whileTrue(m_intake.dumpExtake());
+
+    // B Button -> Run the feeder ONLY, reversed
+    m_operatorController.b().toggleOnTrue(m_launcher.runFeederReverse().alongWith(m_intake.runConveyorReverse()));
    
+    m_operatorController.rightTrigger().toggleOnTrue(m_intake.runExtakeCommand());
+
     
   }
 
@@ -140,7 +140,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
     // return new LaunchAuto(m_swerve,m_launcher).withTimeout(10);
-    return new test(m_intake,m_launcher).withTimeout(10);
+    return new AutoLaunch(m_intake,m_launcher).withTimeout(10);
 
 
   }

@@ -2,13 +2,17 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot;
+package frc.robot.utilities;
 
 import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkFlexConfig;
 
+import frc.robot.Constants;
+import frc.robot.Constants.CAN_IDs;
+import frc.robot.Constants.LauncherSubsystemConstants;
 import frc.robot.Constants.ModuleConstants;
+import frc.robot.Constants.NeoMotorConstants;
 
 import com.revrobotics.spark.config.SparkFlexConfig;
 
@@ -101,7 +105,7 @@ public static final class LauncherSubsystemConfigs {
         flywheelConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder).p(.0002).outputRange(-1, 1);
         flywheelConfig.closedLoop.maxMotion.cruiseVelocity(5000).maxAcceleration(10000).allowedProfileError(1);
         flywheelConfig.closedLoop.feedForward.kV(nominalVoltage/Constants.NeoMotorConstants.VORTEX_KV);
-        flywheelfollowerConfig.apply(feederConfig).follow(Constants.LauncherSubsystemConstants.FLYWHEEL_MOTOR_CAN_ID, true);
+        flywheelfollowerConfig.apply(feederConfig).follow(CAN_IDs.FLYWHEEL_FOLLOWER.ID, true);
         feederConfig.inverted(false).idleMode(IdleMode.kCoast).openLoopRampRate(1.0).smartCurrentLimit(60);
 
     }
