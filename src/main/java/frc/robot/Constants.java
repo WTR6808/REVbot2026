@@ -74,6 +74,7 @@ public final class Constants {
     public static final double TRACK_WIDTH = Units.inchesToMeters(22.5);
     public static final double WHEEL_BASE = Units.inchesToMeters(22.5);
     
+
     public static final SwerveDriveKinematics DRIVE_KINEMATICS =
         new SwerveDriveKinematics(
             new Translation2d(WHEEL_BASE / 2, TRACK_WIDTH / 2),
@@ -84,12 +85,12 @@ public final class Constants {
     public static final boolean GYRO_REVERSED = false;
 
     public static enum DriveSpeeds {
-      SLOW(           0.05, 
-                  0.1),
-      MEDIUM(         0.5,
-                  0.2),
-      FAST(           1,
-                  1);
+      SLOW(           0.06, 
+                  0.15),
+      MEDIUM(         0.4,
+                  0.17),
+      FAST(           0.8,
+                  0.8);
 
       public double linearMultiplier;
       public double rotationalMultiplier;

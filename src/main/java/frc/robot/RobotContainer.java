@@ -94,7 +94,7 @@ public class RobotContainer {
     m_driverController.leftStick().whileTrue(m_swerve.setXCommand());
 
     // Start Button -> Zero swerve heading
-    m_driverController.start().onTrue(m_swerve.zeroHeadingCommand());
+    m_driverController.x().onTrue(m_swerve.zeroHeadingCommand());
 
     // Right Trigger -> Run fuel intake in reverse
     m_driverController
